@@ -1,25 +1,12 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-
-    <swiper-container #swiper navigation="true" pagination="true">
-      <swiper-slide *ngFor="let image of testImages">
-        <img class="swiperImage" src="{{image}}" alt="">
-      </swiper-slide>
-    </swiper-container>
-  </div>
-
+<ion-content scrollY="false">
+	<swiper-container #swiper 
+					 (afterinit)="swiperReady()"
+					 (swiperslidermove)="onSwiperEvent($event)"
+					 navigation="true"
+					 >
+	    <swiper-slide *ngFor="let day of days">
+	        <div>{{ day | date: 'dd/MM/yyyy' }}</div>
+	    </swiper-slide>    
+	</swiper-container>
 </ion-content>
+
