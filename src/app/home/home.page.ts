@@ -56,8 +56,8 @@ import{Component,ViewChild,OnInit,ElementRef,AfterViewInit}from'@angular/core';i
 	}
 
 	swiperslidechange(e: any) {
-		let x : number = e.detail[1].changedTouches[0].clientX;
-		console.log(e.detail[1].changedTouches[0].clientX);
+		//let x : number = e.detail[1].changedTouches[0].clientX;
+		//console.log(e.detail[1].changedTouches[0].clientX);
 		const dir = e.srcElement.swiper.swipeDirection;
 		if (dir == 'next') {
 			this.id = this.id + 1; 
