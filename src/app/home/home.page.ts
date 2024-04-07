@@ -1,61 +1,70 @@
-import { Component, ViewChild, OnInit, ElementRef, AfterViewInit } from '@angular/core';
-import { register } from 'swiper/element/bundle';
-import { DatePipe } from '@angular/common';
-import { Swiper } from 'swiper';
-import { SwiperContainer } from 'swiper/element';
-import { SwiperOptions } from 'swiper/types';
+import{Component,ViewChild,OnInit,ElementRef,AfterViewInit}from'@angular/core';import{register}from'swiper/element/bundle';import{DatePipe}from'@angular/common';import{Swiper}from'swiper';import{SwiperContainer}from'swiper/element';import{SwiperOptions}from'swiper/types';import{inject}from"@angular/core";import{map}from'rxjs/operators';import{HttpClient}from'@angular/common/http';
 
-@Component({
-	selector: 'app-home',
-	templateUrl: 'home.page.html',
-	styleUrls: ['home.page.scss'],
+@Component
+({selector:'app-home',templateUrl:'home.page.html',styleUrls:['home.page.scss'],
 
-})
-export class HomePage implements OnInit {
+})export class HomePage implements OnInit {
 
-	swiperParams: SwiperOptions = {
-		effect: "coverflow",
-		loop: true,
-		grabCursor: true,
-		centeredSlides: true,
-		slidesPerView: "auto",
-		coverflowEffect: {
-			rotate: 0,
-		},
+	persone:any=
+	{
+		"userId": 0,
+		"id": 0,
+		"title": "",
+		"body": ""
 	};
 
-	swiper?: Swiper;
-	days: Date[] = [];
+	id:number=20;url="https://jsonplaceholder.typicode.com/posts/";
+
+	swiper?:Swiper;swiperParams:SwiperOptions=
+	{
+		initialSlide: 1,
+		slidesPerView: 1,
+		spaceBetween: 20,
+		autoplay: {
+			delay: 2000,
+		}
+	};
+
+	data:any[]=[];http=
+
+	inject(HttpClient);
 
 	constructor() {
 	}
 
 	swiperReady() {
 		this.swiper = new Swiper('.swiper', this.swiperParams);
+		console.log("swiper ready");
 	}
 
 	ngOnInit() {
 		register();
 		//
-		const today = new Date();
-		this.getWeek(today);
+		this.getWeek(this.id);
 	}
 
-	getWeek(currentDate: Date) {
-		this.days = [];
-		this.days.push(currentDate);
+	onSlideChange() {
+		    console.log(this.swiper?.activeIndex);
+		}
+
+	getWeek(id: number) {
+		this.http.get(this.url + id).pipe(map((data: any) => {
+			this.persone = data;
+			this.data = [];
+			this.data.push(this.persone);
+		})).subscribe();
 	}
 
-	onSwiperEvent(e: any) {
+	swiperslidechange(e: any) {
+		let x : number = e.detail[1].changedTouches[0].clientX;
+		console.log(e.detail[1].changedTouches[0].clientX);
 		const dir = e.srcElement.swiper.swipeDirection;
-		const day = this.days[0];
-		let date: Date;
-		if (dir === 'next') {
-			date = new Date(day.getTime() + 24 * 60 * 60 * 1000); // Add 1 day
+		if (dir == 'next') {
+			this.id = this.id + 1; 
 		} else {
-			date = new Date(day.getTime() - 24 * 60 * 60 * 1000); // Subtract 1 day
+			this.id = this.id - 1;
 		}
 		e.srcElement.swiper.removeAllSlides();
-		this.getWeek(date);
+		this.getWeek(this.id);
 	}
 }

@@ -1,11 +1,13 @@
 <ion-content scrollY="false">
 	<swiper-container #swiper 
-					 (afterinit)="swiperReady()"
-					 (swiperslidermove)="onSwiperEvent($event)"
-					 navigation="true"
+					 (swiperafterinit)="swiperReady()"
+					 (swipertouchend)="swiperslidechange($event)"
 					 >
-	    <swiper-slide *ngFor="let day of days">
-	        <div>{{ day | date: 'dd/MM/yyyy' }}</div>
+	    <swiper-slide *ngFor="let day of data">
+	    	<ion-card>
+	        	<div>{{ persone.id }}</div>
+	        	<div>{{ persone.title }}</div>
+	    	</ion-card>
 	    </swiper-slide>    
 	</swiper-container>
 </ion-content>

@@ -4,15 +4,16 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    HomePageRoutingModule
-  ],
-  declarations: [HomePage],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA] // <--- ADD THIS ALSO
+	imports: [
+		HttpClientModule,
+		CommonModule,
+		FormsModule,
+		IonicModule,
+		HomePageRoutingModule
+	],
+	declarations: [HomePage],
+	schemas: [CUSTOM_ELEMENTS_SCHEMA] // <--- ADD THIS ALSO
 })
-export class HomePageModule {}
+export class HomePageModule { }
